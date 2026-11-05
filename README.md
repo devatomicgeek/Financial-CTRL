@@ -1,30 +1,40 @@
-# Financial CTRL v0.2
+# Financial CTRL v0.3
 
-## What changed since v0.1
+## Changes from v0.2
 
-- Transaction / Movement form now reacts to the selected transaction type.
-- Expense / Purchase shows **Paid from**, description, category, optional notes, amount, date and status. **Destination account** is hidden for expenses.
-- Income / Refund shows **Receive into** instead of a payment source.
-- Transfer shows both source and destination and an optional transfer fee.
-- Balance adjustment shows the destination account, without a payment source.
-- Unused controls are disabled so hidden values are not submitted.
-- Added **Groceries** and **Subscriptions** expense categories.
-- Version label updated to v0.2.
+Transfer between accounts now supports **two separate fees**:
 
-## Upgrade from v0.1
+- **Sender fee**: deducted from the sending account in addition to the transfer amount.
+- **Receiver fee**: deducted from the amount credited to the receiving account.
+- Transfer preview shows source deduction, net received, and combined fees.
+- Both fees are included in monthly expenses; the transferred principal is not income or expense.
+- Editing or deleting a transfer recalculates both accounts and monthly expenses.
+- Existing v0.2 transfers remain compatible: missing `receiverFee` is treated as zero.
+- Planned transfers affect projected balances only until confirmed.
 
-1. **Export a JSON backup** from the v0.1 menu first.
-2. Replace only `index.html` in the root of your existing GitHub Pages repository, then commit.
-3. Keep your existing Firebase project, Google Authentication configuration and **published restrictive Firestore rules**. Do not reset Firestore.
-4. Reload the published website after GitHub Pages redeploys. The existing Firestore document path and data shape are unchanged.
-5. Test an expense and a transfer, including their resulting account balances and transaction history.
+### Example
+
+Transfer 1,000 Credits from NEXUS_01 to NEXUS_02 with sender fee 5 and receiver fee 2:
+- NEXUS_01: -1,005
+- NEXUS_02: +998
+- Monthly expenses: +7
+- Combined account balance change: -7
+
+## Upgrade
+
+1. Export a JSON backup from your live v0.2 site before changing anything.
+2. Upload **only `index.html`** from this package to your existing GitHub Pages repository root, replacing the old file.
+3. Commit, wait for deployment, and hard-refresh the site.
+4. Keep your existing Firebase project and **already published single-owner UID Firestore rules**. Do not replace them with the generic example included here.
+5. Test one transfer, edit its fees, then delete it; verify balances and monthly expenses after each operation and after a reload.
 
 ## Files
 
-- `index.html` - single-file responsive dashboard with Firebase SDK imported from the official CDN.
-- `robots.txt` - discourages indexing, not an access-control mechanism.
-- `firestore.rules` - example per-UID isolation rules. **Do not overwrite your already-published single-owner UID rules with these more general example rules** unless you intentionally want each authenticated user to have a separate workspace.
+- `index.html` - single-file dashboard (Firebase config unchanged)
+- `robots.txt` - discourages indexing, does not secure the site
+- `firestore.rules` - generic example for per-user data; **not** a replacement for your current stricter UID-locked rules
+- `README.md` - these notes
 
-## Notes
+## Caution
 
-The website requires an internet connection for Firebase. Google Sign-In and live Firestore sync must be tested on the deployed GitHub Pages origin. This is an incremental update, not a complete audit of the financial calculation engine. Keep backups and validate transactions before relying on the app for financial decisions.
+The existing app's broader financial logic has not been fully audited. Live Google login and Firestore synchronization must be verified on your published domain. Always retain a backup before upgrading.
