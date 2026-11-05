@@ -1,17 +1,30 @@
-# FINANCIAL CTRL v0.1
+# Financial CTRL v0.2
 
-Static, responsive GitHub Pages personal finance dashboard. Uses Firebase Google Authentication and Cloud Firestore. No financial records are bundled with the website.
+## What changed since v0.1
 
-## Deployment
-1. Upload `index.html`, `robots.txt`, and this README to the root of your `financial-ctrl` GitHub repository.
-2. GitHub repository > Settings > Pages > Deploy from a branch > `main` / `(root)` > Save.
-3. Firebase Console > Authentication > Settings > Authorized domains: add your GitHub Pages **hostname** (e.g. `yourname.github.io`, without protocol or path).
-4. Visit your deployed website and sign in with Google. If you see a permissions error, this is expected while Firestore remains locked.
-5. Firebase Console > Authentication > Users: copy your UID. In Firestore Database > Rules, paste the contents of `firestore.rules`, replace `YOUR_FIREBASE_UID` with your actual UID, then **Publish**. Do not commit the UID-customized rules to a public repository if you prefer not to disclose it.
-6. Refresh the site. It should sync your records. Test on mobile and desktop.
+- Transaction / Movement form now reacts to the selected transaction type.
+- Expense / Purchase shows **Paid from**, description, category, optional notes, amount, date and status. **Destination account** is hidden for expenses.
+- Income / Refund shows **Receive into** instead of a payment source.
+- Transfer shows both source and destination and an optional transfer fee.
+- Balance adjustment shows the destination account, without a payment source.
+- Unused controls are disabled so hidden values are not submitted.
+- Added **Groceries** and **Subscriptions** expense categories.
+- Version label updated to v0.2.
 
-**Security:** Do not publish open/test Firestore rules. The website code is public; your financial data is protected by Firestore rules. `robots.txt` and the `noindex` meta tag only discourage indexing, not access. A Firebase web API key is not a secret.
+## Upgrade from v0.1
 
-**Backups:** Export JSON regularly. Import replaces the currently signed-in user's dataset after confirmation. All financial calculations are client-side and intended for personal tracking, not bank reconciliation or financial advice.
+1. **Export a JSON backup** from the v0.1 menu first.
+2. Replace only `index.html` in the root of your existing GitHub Pages repository, then commit.
+3. Keep your existing Firebase project, Google Authentication configuration and **published restrictive Firestore rules**. Do not reset Firestore.
+4. Reload the published website after GitHub Pages redeploys. The existing Firestore document path and data shape are unchanged.
+5. Test an expense and a transfer, including their resulting account balances and transaction history.
 
-**Version:** 0.1. The interface is a new recreation inspired by the supplied screenshots, not a copy of the old website's source code.
+## Files
+
+- `index.html` - single-file responsive dashboard with Firebase SDK imported from the official CDN.
+- `robots.txt` - discourages indexing, not an access-control mechanism.
+- `firestore.rules` - example per-UID isolation rules. **Do not overwrite your already-published single-owner UID rules with these more general example rules** unless you intentionally want each authenticated user to have a separate workspace.
+
+## Notes
+
+The website requires an internet connection for Firebase. Google Sign-In and live Firestore sync must be tested on the deployed GitHub Pages origin. This is an incremental update, not a complete audit of the financial calculation engine. Keep backups and validate transactions before relying on the app for financial decisions.
