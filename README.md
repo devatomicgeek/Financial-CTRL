@@ -1,24 +1,18 @@
-# Financial CTRL_ v0.4
+# FINANCIAL CTRL_ v0.5
 
-Visual update based on v0.3. No ledger or Firestore schema changes.
+## What changed
+- Centered mobile sign-in card within the device viewport; removed horizontal overflow.
+- Restored heavy condensed FINANCIAL CTRL_ typography on the sign-in screen and dashboard hero.
+- Improved mobile heading, subtitle, description, and section-heading weight, scale, and spacing.
+- Added resilient font fallbacks if Google Fonts are unavailable.
+- Kept desktop design and existing financial logic, Firebase project configuration, and Firestore document paths unchanged.
 
-## What's new
-- Finance-bar SVG brand and `FINANCIAL CTRL_ v0.4` header.
-- Lightweight CSS 3D data cube with staggered assembly, idle motion, and reduced-motion support.
-- Custom theme-aware month/year picker instead of the browser-native month popup.
-- Notification and account-menu popovers anchored beneath their respective buttons.
-- Centered SVG plus icon in floating Add Transaction button.
-- Credit card donut content centered with safer font sizing.
+## Deployment
+1. Export a JSON backup from your currently deployed site.
+2. Replace the repository root `index.html` with the v0.5 version.
+3. Commit and wait for GitHub Pages deployment; hard-refresh on your phone.
+4. Test login, dashboard, balances, transactions, and cross-device sync.
+5. Keep your currently published restrictive Firestore rules; no migration is required.
 
-## Deploy
-1. Export a JSON backup from the currently running v0.3 site.
-2. Upload **index.html** to the root of the existing GitHub Pages repository, replacing the old file.
-3. Commit and refresh after Pages deploys. Hard-refresh if necessary.
-4. Keep your existing **published UID-restricted Firestore rules**. Do not replace them with the example `firestore.rules` unless you have reviewed the change.
-5. Verify existing balances and transactions, and test all five visual changes on desktop and mobile.
-
-## Security
-The public Firebase web configuration is embedded in index.html as before. Authentication and Firestore rules enforce access. `robots.txt` discourages indexing but is not an access-control mechanism.
-
-## Testing
-Static code and JavaScript syntax checks can be performed offline. Real Firebase sync and browser layout must be checked on the deployed website.
+## Notes
+Google Fonts (Anton and Roboto Slab) load from Google when available, with local font fallbacks. Browser and Firebase live integration tests must be completed after deployment.
