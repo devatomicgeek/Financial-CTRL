@@ -1,18 +1,15 @@
-# FINANCIAL CTRL_ v0.5
+# Financial CTRL v0.6
 
-## What changed
-- Centered mobile sign-in card within the device viewport; removed horizontal overflow.
-- Restored heavy condensed FINANCIAL CTRL_ typography on the sign-in screen and dashboard hero.
-- Improved mobile heading, subtitle, description, and section-heading weight, scale, and spacing.
-- Added resilient font fallbacks if Google Fonts are unavailable.
-- Kept desktop design and existing financial logic, Firebase project configuration, and Firestore document paths unchanged.
+Updated from v0.5 without changing Firebase configuration or financial calculations.
 
-## Deployment
-1. Export a JSON backup from your currently deployed site.
-2. Replace the repository root `index.html` with the v0.5 version.
-3. Commit and wait for GitHub Pages deployment; hard-refresh on your phone.
-4. Test login, dashboard, balances, transactions, and cross-device sync.
-5. Keep your currently published restrictive Firestore rules; no migration is required.
+## Updates
+- Minimalist SVG bell replaces the old notification symbol.
+- Individual dismiss (X) and CLEAR ALL controls for in-site notifications.
+- Dismissed alert keys saved in the existing user Firestore document, so dismissal persists after refresh and syncs across devices.
+- Card and loan reminders use month-specific keys, allowing new monthly reminders. Bill alerts are keyed to their bill month.
+- Dismissal does not change bill/payment status or any financial amount.
 
-## Notes
-Google Fonts (Anton and Roboto Slab) load from Google when available, with local font fallbacks. Browser and Firebase live integration tests must be completed after deployment.
+## Upgrade
+Export a JSON backup, replace `index.html` on GitHub Pages, and refresh. Keep the current Firestore rules. Test clearing alerts and synchronization on your devices.
+
+Live Firebase integration is not tested by the offline build.
